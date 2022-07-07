@@ -3,7 +3,7 @@ const { MessageEmbed, Guild } = require("discord.js")
 const { QueryType } = require("discord-player")
 const {readFileSync, promises: fsPromises} = require('fs');
 
-const reactions = syncReadFile('./commands/gifs.txt');
+let reactions = syncReadFile('./commands/gifs.txt');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -11,7 +11,10 @@ module.exports = {
         .setDescription("got the whole squad laughing"),
     execute: async({client, interaction}) => {
         
-        const image = Math.floor(Math.random() * reactions.length);
+ 
+        reactions = syncReadFile('./commands/gifs.txt');
+        const image = Math.floor(Math.random() * reactions.length - 2);
+
         console.log(reactions[image])
         
         console.log("used in " + client.Guild);
@@ -27,5 +30,5 @@ function syncReadFile(filename) {
     console.log(arr); 
   
     return arr;
-}
+  }
   
