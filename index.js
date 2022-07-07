@@ -4,6 +4,7 @@ const {REST} = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const { Client, Intents, Collection } = require("discord.js");
 const { Player } = require("discord-player");
+const fss = require('fs');
 
 const fs = require("node:fs");
 const path = require("node:path");
@@ -11,7 +12,8 @@ const path = require("node:path");
 const client = new Client({
     intents: [Intents.FLAGS.GUILDS, 
         Intents.FLAGS.GUILD_MESSAGES,
-        Intents.FLAGS.GUILD_VOICE_STATES]
+        Intents.FLAGS.GUILD_VOICE_STATES,
+        Intents.FLAGS.GUILD_MESSAGE_REACTIONS]
 });
 
 const commands = [];
@@ -71,4 +73,33 @@ client.on("interactionCreate", async interaction => {
     }
 });
 
+client.on('messageCreate', (message) => {
+
+    if(message.channelId === "994472756248850462" && !(message.author.id === "994031394298798100")){
+        console.log("Message found")
+        if(message.content.includes(".gif") || message.content.includes("-gif-")){
+            console.log("gif seen")
+            message.react('✅').then(() => message.react('🚫'));
+            const filter = (reaction, user) => {
+                return ['✅', '🚫'].includes(reaction.emoji.name) && user.id === "212816510555521024";
+            };
+            message.awaitReactions({ filter, max: 1, time: 60000, errors: ['time'] }).then(collected => {
+		        const reaction = collected.first();
+
+		        if (reaction.emoji.name === '✅') {
+		        	fss.appendFile('./commands/gifs.txt', message.content + "\r\n", (err) => {
+                        return console.log(err);
+                    });
+		        } else {
+		        	message.reply('Not based enough');
+		        }
+	        })
+	        .catch(collected => {
+		        message.reply('You reacted with neither a thumbs up, nor a thumbs down.');
+	        });
+        }
+    }
+});
+
 client.login(process.env.TOKEN);
+
