@@ -1,9 +1,8 @@
 const { SlashCommandBuilder } = require("@discordjs/builders")
 const { MessageEmbed } = require("discord.js")
 const { execute } = require("./play")
-const { API, TagTypes, } = require('nhentai-api');
-
-const api = new API();
+const nHentai = require('shentai')
+const sHentai = new nHentai
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -20,6 +19,7 @@ module.exports = {
             return;
         }
 
+        await sHentai.getRandom().then(doujin => console.log(doujin))
         await interaction.reply("The code was " + code + " " + code.length);
     }
 }
