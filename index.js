@@ -87,7 +87,7 @@ client.on('messageCreate', (message) => {
 		        const reaction = collected.first();
 
 		        if (reaction.emoji.name === '✅') {
-		        	fss.appendFile('./commands/gifs.txt', message.content + "\r\n", (err) => {
+		        	fss.appendFile('./commands/gifs.txt', "\r\n" + message.content, (err) => {
                         return console.log(err);
                     });
 		        } else {

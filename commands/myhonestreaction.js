@@ -13,7 +13,7 @@ module.exports = {
         
  
         reactions = syncReadFile('./commands/gifs.txt');
-        const image = Math.floor(Math.random() * reactions.length - 2);
+        const image = Math.floor(Math.random() * reactions.length - 1);
 
         console.log(reactions[image])
         
