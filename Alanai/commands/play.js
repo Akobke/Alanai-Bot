@@ -1,6 +1,11 @@
 const { SlashCommandBuilder } = require("@discordjs/builders")
 const { MessageEmbed } = require("discord.js")
 const { QueryType } = require("discord-player")
+const axios = require('axios').default;
+
+const api = axios.create({
+    baseURL: `http://localhost:8080`
+});
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -54,6 +59,12 @@ module.exports = {
             // Add the track to the queue
             const song = result.tracks[0]
             await queue.addTrack(song)
+            api.post('/servers',{
+                server: 78,
+                queue: 'The chicken song, pee pee hours, darksune is kinda kute ya know OwO'
+            }).then(function (response){
+                console.log(response);
+            })
             embed
                 .setDescription(`**[${song.title}](${song.url})** has been added to the Queue`)
                 .setThumbnail(song.thumbnail)
