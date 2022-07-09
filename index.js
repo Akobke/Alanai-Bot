@@ -1,5 +1,5 @@
 require("dotenv").config();
-
+const axios = require('axios').default;
 const {REST} = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const { Client, Intents, Collection } = require("discord.js");
@@ -8,6 +8,10 @@ const fss = require('fs');
 
 const fs = require("node:fs");
 const path = require("node:path");
+
+const api = axios.create({
+    baseURL: `http://localhost:8080`
+});
 
 const client = new Client({
     intents: [Intents.FLAGS.GUILDS, 
@@ -100,6 +104,10 @@ client.on('messageCreate', (message) => {
         }
     }
 });
+
+api.get('/servers',{}).then(function (response){
+    console.log(response.data);
+})
 
 client.login(process.env.TOKEN);
 
