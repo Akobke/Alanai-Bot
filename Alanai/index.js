@@ -76,6 +76,9 @@ client.on("interactionCreate", async interaction => {
         await interaction.reply("shit brokey");
     }
 });
+client.on("messageDelete", (message) => {
+    return;
+})
 
 client.on('messageCreate', (message) => {
 
@@ -94,12 +97,12 @@ client.on('messageCreate', (message) => {
 		        	fss.appendFile('./commands/gifs.txt', "\r\n" + message.content, (err) => {
                         return console.log(err);
                     });
-		        } else {
+		        } else if(reaction.emoji.name === '🚫'){
 		        	message.reply('Not based enough');
 		        }
 	        })
 	        .catch(collected => {
-		        message.reply('You reacted with neither a thumbs up, nor a thumbs down.');
+		        message.channel.send('message deleted :(');
 	        });
         }
     }
