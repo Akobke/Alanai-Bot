@@ -57,11 +57,13 @@ module.exports = {
                 return interaction.reply("No results")
 
             // Add the track to the queue
+            
             const song = result.tracks[0]
+            let queuesong = String(song)
             await queue.addTrack(song)
             api.post('/servers',{
-                server: 78,
-                queue: 'The chicken song, pee pee hours, darksune is kinda kute ya know OwO'
+                server: 77,
+                queue: queuesong
             }).then(function (response){
                 console.log(response);
             })

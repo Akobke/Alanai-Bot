@@ -105,9 +105,7 @@ client.on('messageCreate', (message) => {
     }
 });
 
-api.get('/servers',{}).then(function (response){
-    console.log(response.data);
-})
+
 
 client.login(process.env.TOKEN);
 
