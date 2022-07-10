@@ -8,6 +8,10 @@ function getAllServers(){
     return knex("queues").select("*");
 }
 
+function getServers(server){
+    return knex.select("*").from("queues").where("server", server);
+}
+
 function deleteServer(server){
     return knex("queues").where("server", server).del();
 }
@@ -20,5 +24,6 @@ module.exports = {
     createServer,
     getAllServers,
     deleteServer,
-    updateServer
+    updateServer,
+    getServers
 }

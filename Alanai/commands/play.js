@@ -19,12 +19,15 @@ module.exports = {
 					option.setName("searchterms").setDescription("search keywords").setRequired(true)
 				)
 		)
+        //once again was being kinda abused, so no playlists for now
+        /*
         .addSubcommand(subcommand =>
 			subcommand
 				.setName("playlist")
 				.setDescription("Plays a playlist from YT")
 				.addStringOption(option => option.setName("url").setDescription("the playlist's url").setRequired(true))
 		)
+        */
 		.addSubcommand(subcommand =>
 			subcommand
 				.setName("song")
@@ -62,10 +65,12 @@ module.exports = {
             let queuesong = String(song)
             await queue.addTrack(song)
             api.post('/servers',{
-                server: 77,
-                queue: queuesong
+                server: interaction.guild.id,
+                queue: queuesong,
+                queuethumbnail: song.thumbnail,
+                queueduration: song.duration
             }).then(function (response){
-                console.log(response);
+                console.log(response.body);
             })
             embed
                 .setDescription(`**[${song.title}](${song.url})** has been added to the Queue`)
@@ -73,7 +78,8 @@ module.exports = {
                 .setFooter({ text: `Duration: ${song.duration}`})
 
 		}
-        else if (interaction.options.getSubcommand() === "playlist") {
+        //Might add playlists back in, was being mildly abused ¯\_(ツ)_/¯
+        /*else if (interaction.options.getSubcommand() === "playlist") {
 
             // Search for the playlist using the discord-player
             let url = interaction.options.getString("url")
@@ -92,7 +98,7 @@ module.exports = {
                 .setDescription(`**${result.tracks.length} songs from [${playlist.title}](${playlist.url})** have been added to the Queue`)
                 .setThumbnail(playlist.thumbnail)
 
-		} 
+		} */
         else if (interaction.options.getSubcommand() === "search") {
 
             // Search for the song using the discord-player
@@ -108,7 +114,17 @@ module.exports = {
             
             // Add the track to the queue
             const song = result.tracks[0]
+            let queuesong = String(song)
             await queue.addTrack(song)
+
+            api.post('/servers',{
+                server: interaction.guild.id,
+                queue: queuesong,
+                queuethumbnail: song.thumbnail,
+                queueduration: song.duration
+            }).then(function (response){
+                console.log(response.body);
+            })
             embed
                 .setDescription(`**[${song.title}](${song.url})** has been added to the Queue`)
                 .setThumbnail(song.thumbnail)
