@@ -30,3 +30,13 @@ app.post('/servers', async (req, res) => {
     const results = await db.createServer(req.body);
     res.status(201).json({id: results[0]});
 });
+
+app.delete("/servers/:server", async (req, res) =>{
+    await db.deleteServer(req.params.server);
+    res.status(200).json({ success: true })
+})
+
+app.delete("/servers/song/:server", async (req, res) => {
+    await db.deleteFirstSong(req.params.server);
+    res.status(200).json({success: true})
+})

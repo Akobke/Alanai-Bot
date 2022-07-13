@@ -1,5 +1,10 @@
 const {SlashCommandBuilder} = require("@discordjs/builders");
-const { MessageEmbed } =      require("discord.js");
+const { MessageEmbed, DiscordAPIError } =      require("discord.js");
+const axios = require('axios').default;
+
+const api = axios.create({
+    baseURL: `http://localhost:8080`
+});
 
 
 module.exports = {
@@ -17,7 +22,7 @@ module.exports = {
         const currentSong = queue.current;
 
         queue.destroy();
-
+        await api.delete(`/servers/${interaction.guild.id}`);
         await interaction.reply("Ok I go now!")
     }
 }
