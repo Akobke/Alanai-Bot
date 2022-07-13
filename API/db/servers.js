@@ -24,6 +24,10 @@ function deleteAllServers(server){
     return knex("queues").where("server", server).del();
 }
 
+function deleteAllServers(server){
+    return knex("queues").where("server", server).del();
+}
+
 function updateServer(server, queue){
     return knex("queues").where("server", server).update(queue);
 }
