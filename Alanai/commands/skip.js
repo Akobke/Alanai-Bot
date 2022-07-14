@@ -1,5 +1,10 @@
 const {SlashCommandBuilder} = require("@discordjs/builders");
 const { MessageEmbed } =      require("discord.js");
+const axios = require('axios').default;
+
+const api = axios.create({
+    baseURL: `http://localhost:8080`
+});
 
 
 module.exports = {
@@ -17,7 +22,6 @@ module.exports = {
         const currentSong = queue.current;
 
         queue.skip();
-
         await interaction.reply({
             embeds:[
                 new MessageEmbed()

@@ -1,5 +1,5 @@
 const knex = require('knex');
-
+//conenction to DB
 const connectedKnex = knex({
     client: "sqlite3",
     connection:{

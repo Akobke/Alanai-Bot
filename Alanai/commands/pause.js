@@ -15,7 +15,7 @@ module.exports = {
         }
 
         const currentSong = queue.current;
-
+        
         queue.setPaused(true);
 
         await interaction.reply("Paused current song")

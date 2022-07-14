@@ -11,13 +11,14 @@ module.exports = {
         .setDescription("got the whole squad laughing"),
     execute: async({client, interaction}) => {
         
- 
+        //reads gifs .txt
         reactions = syncReadFile('./commands/gifs.txt');
-        const image = Math.floor(Math.random() * reactions.length - 1);
+        const image = Math.floor(Math.random() * reactions.length);
 
         console.log(reactions[image])
         
-        console.log("used in " + client.Guild);
+        console.log("used in " + interaction.Guild.id);
+        //replies with random gif
         await interaction.reply(reactions[image]);
     }
 }

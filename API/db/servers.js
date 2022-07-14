@@ -1,5 +1,5 @@
 const knex = require('./knex');
-
+//all quereys
 function createServer(server){
     return knex("queues").insert(server)
 }
@@ -16,24 +16,16 @@ function deleteServer(server){
     return knex.select("*").from("queues").where("server", server).del();
 }
 
-function deleteAllServers(server){
-    return knex("queues").where("server", server).del();
-}
-
-function deleteAllServers(server){
-    return knex("queues").where("server", server).del();
-}
-
-function deleteAllServers(server){
-    return knex("queues").where("server", server).del();
-}
-
 function updateServer(server, queue){
     return knex("queues").where("server", server).update(queue);
 }
 
-function deleteFirstSong(server, queue){
-    return knex("queues").where("server", server).first().del()
+function deleteFirstSong(servers){
+    return knex.raw(
+    `DELETE FROM
+    queues
+    WHERE
+    id = (SELECT MIN(id) FROM queues WHERE server = ?);`, [servers])
 }
 
 module.exports = {

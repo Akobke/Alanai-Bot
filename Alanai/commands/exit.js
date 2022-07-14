@@ -20,7 +20,7 @@ module.exports = {
         }
 
         const currentSong = queue.current;
-
+        //deletes the queue and removes all server entries from DB
         queue.destroy();
         await api.delete(`/servers/${interaction.guild.id}`);
         await interaction.reply("Ok I go now!")

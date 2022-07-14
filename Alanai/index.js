@@ -13,6 +13,8 @@ const api = axios.create({
     baseURL: `http://localhost:8080`
 });
 
+
+//creats client with needed intents
 const client = new Client({
     intents: [Intents.FLAGS.GUILDS, 
         Intents.FLAGS.GUILD_MESSAGES,
@@ -20,19 +22,21 @@ const client = new Client({
         Intents.FLAGS.GUILD_MESSAGE_REACTIONS]
 });
 
+//defines the commands array that is sent to guilds
 const commands = [];
 client.commands = new Collection();
 
+
 const commandsPath = path.join(__dirname, "commands");
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith(".js"));
-
+//goes throug hte commands folder and gets path for all files ending in .js
 for(const file of commandFiles){
     const filePath = path.join(commandsPath, file);
     const command = require(filePath);
     client.commands.set(command.data.name, command);
     commands.push(command.data.toJSON());
 }
-
+//creates discord player for music
 client.player = new Player(client, {
     ytdlOptions:{
         quality: "highestaudio",
@@ -40,10 +44,11 @@ client.player = new Player(client, {
     }
 });
 
+//client ready event
 client.on("ready", () => {
     const guild_ids = client.guilds.cache.map(guild => guild.id);
     const rest = new REST({version: "9"}).setToken(process.env.TOKEN);
-
+        //set bot status
         client.user.setStatus('available')
         client.user.setPresence({
             game: {
@@ -52,7 +57,7 @@ client.on("ready", () => {
                 url: "https://watame.fumo.life/wakipaisaikyou/yVUHTS3W"
             }
         });
-
+    //sends commands to the guilds
     for(const guildId of guild_ids){
         rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, guildId),{
             body: commands
@@ -61,7 +66,7 @@ client.on("ready", () => {
         .catch(console.error);
     }
 });
-
+//event for handling commands
 client.on("interactionCreate", async interaction => {
     if(!interaction.isCommand()) return;
 
@@ -79,7 +84,7 @@ client.on("interactionCreate", async interaction => {
 client.on("messageDelete", (message) => {
     return;
 })
-
+//handles gifadding
 client.on('messageCreate', (message) => {
 
     if(message.channelId === "994472756248850462" && !(message.author.id === "994031394298798100")){
@@ -108,7 +113,12 @@ client.on('messageCreate', (message) => {
     }
 });
 
-
+client.player.on("trackEnd", (queue) =>{
+    console.log(`track ended in ${queue.guild.id}`)
+    api.delete(`/servers/song/${queue.guild.id}`).then(function (response){
+        console.log(response.body);
+    })
+})
 
 client.login(process.env.TOKEN);
 
