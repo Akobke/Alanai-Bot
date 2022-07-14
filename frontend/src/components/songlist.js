@@ -24,7 +24,10 @@ function Songlist(){
         <div>
             {
                 playlist.playlistt.server.map((index, i) => 
-                <li key={i}>{JSON.stringify(index.Queue)}</li>
+                <>
+                <li key={i}>{JSON.stringify(index.QueueThumbnail.replace(/['"]+/g, ''))}</li>
+                <img src={index.QueueThumbnail} height="90" width="160"/>
+                </>
                 )
             }
             
