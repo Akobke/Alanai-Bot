@@ -1,4 +1,6 @@
 const knex = require('./knex');
+
+
 //all quereys
 function createServer(server){
     return knex("queues").insert(server)

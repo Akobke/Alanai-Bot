@@ -2,9 +2,16 @@ const express = require('express');
 const app = express();
 const PORT = 8080;
 const db = require("./db/servers")
+const bodyParser = require("body-parser");
+const cors = require('cors')
 require('dotenv').config
 
-app.use(express.json())
+var options = {
+    index: false,
+  }
+  
+
+app.use(bodyParser.json({index: false}), cors())
 
 app.listen(PORT,
     () => console.log(`API ready on port ${PORT}`)
@@ -16,7 +23,7 @@ app.get('/servers/:server', async (req, res) => {
 });
 
 app.get('/servers', async (req,res) =>{
-    const server = await db.getAllServers();
+    const server = await db.getAllServers(req.data);
     res.status(200).json({server})
 })
 
