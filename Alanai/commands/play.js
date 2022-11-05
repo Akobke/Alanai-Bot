@@ -4,7 +4,7 @@ const { QueryType } = require("discord-player")
 const axios = require('axios').default;
 
 const api = axios.create({
-    baseURL: `http://localhost:8080`
+    baseURL: `http://localhost:8090`
 });
 
 module.exports = {
@@ -52,7 +52,7 @@ module.exports = {
             // Search for the song using the discord-player
             const result = await client.player.search(url, {
                 requestedBy: interaction.user,
-                searchEngine: QueryType.YOUTUBE_VIDEO
+                searchEngine: QueryType.AUTO
             })
 
             // finish if no tracks were found
@@ -64,6 +64,7 @@ module.exports = {
             const song = result.tracks[0]
             let queuesong = String(song)
             await queue.addTrack(song)
+            
             api.post('/servers',{
                 server: interaction.guild.id,
                 queue: queuesong,
