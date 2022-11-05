@@ -17,7 +17,7 @@ module.exports = {
 
         console.log(reactions[image])
         
-        console.log("used in " + interaction.Guild.id);
+        //console.log("used in " + interaction.Guild.id);
         //replies with random gif
         await interaction.reply(reactions[image]);
     }

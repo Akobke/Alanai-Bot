@@ -20,7 +20,8 @@
     "express": "^4.18.1",
     "ffmpeg-static": "^4.4.1",
     "nhentai-api": "^3.4.3",
-    "shentai": "^2.0.7"
+    "shentai": "^2.0.7",
+    "ytdl-core": "^4.11.2"
   },
   "repository": {
     "type": "git",

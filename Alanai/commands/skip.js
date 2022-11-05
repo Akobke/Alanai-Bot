@@ -3,7 +3,7 @@ const { MessageEmbed } =      require("discord.js");
 const axios = require('axios').default;
 
 const api = axios.create({
-    baseURL: `http://localhost:8080`
+    baseURL: `http://localhost:8090`
 });
 
 

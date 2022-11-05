@@ -10,7 +10,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const api = axios.create({
-    baseURL: `http://localhost:8080`
+    baseURL: `http://localhost:8090`
 });
 
 
@@ -78,7 +78,7 @@ client.on("interactionCreate", async interaction => {
     }
     catch(err){
         console.log(err);
-        await interaction.reply("shit brokey");
+        //await interaction.reply("shit brokey");
     }
 });
 client.on("messageDelete", (message) => {
